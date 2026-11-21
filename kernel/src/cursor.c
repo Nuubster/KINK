@@ -15,3 +15,7 @@ void fb_move_cursor(unsigned short pos)
     outb(FB_COMMAND_PORT, FB_LOW_BYTE_COMMAND);
     outb(FB_DATA_PORT, pos & 0x00FF);
 }
+
+void io_wait(void)
+{   outb(0x80, 0);  }
+

@@ -7,6 +7,7 @@
 #include "conf.h"
 #include "gdt.h"
 #include "idt.h"
+#include "pic.h"
 
 // Scancode port: 0x60; Status port: 0x64
 uint8_t keyboard_read(void);
@@ -18,8 +19,17 @@ char ScancodeToChar[256] = {'\0', '\0', '1', '2', '3', '4', '5', '6', '7', '8', 
 
 void kernel_main(void)
 {
+    asm volatile ("cli"); //disable interrupts
+
     GDT_init();
     IDT_init();
+
+    PIC_remap(0x20, 0x28);
+
+    outb(0x21, 0xFF); // MasterPIC_Data
+    outb(0xA1, 0xFF); // SlavePIC_Data
+    IRQ_clearMask(1); // Unmasks the keyboard IRQ port
+
     terminal_initialize();
     bool ShiftPressed = false;
     bool ShiftReleased = true;
@@ -27,6 +37,8 @@ void kernel_main(void)
     terminal_writeString("HelloWorld(Console.WriteLine)\n");
     terminal_writeString("THIS IS NOT A KIRNIL\n");
     terminal_writeString("1234\n");
+
+/* A divide-by-zero error call
     int a = 1;
     int b = 0;
     asm volatile (
@@ -35,6 +47,7 @@ void kernel_main(void)
             : "a"(a), "b"(b)
             : "edx"
             );
+*/
 
     while(1)
     {
@@ -48,8 +61,7 @@ void kernel_main(void)
             }
             char charPressed = ScancodeToChar[Scancode]; 
             if (ShiftPressed == true && ShiftReleased == false && charPressed != ScancodeToChar[0x2A]) 
-            { charPressed -= 0x20; }
-                // int x = 1/0; 
+            { charPressed -= 0x20; }  
             terminal_putChar(charPressed);
 
             if (Scancode == 0xAA) { ShiftPressed = false; ShiftReleased = true; }
