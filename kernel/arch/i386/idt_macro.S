@@ -79,6 +79,8 @@ ISR_NOERR 27
 ISR_NOERR 28
 ISR_NOERR 29
 ISR_NOERR 31
+ISR_NOERR 32 // Beware: not sure
+ISR_NOERR 33
 
 // Yes error codes
 ISR_ERR 8
@@ -147,5 +149,7 @@ isr_stub_table:
 .long vector_29_handler
 .long vector_30_handler
 .long vector_31_handler
+.long vector_32_handler // beware: not sure
+.long vector_33_handler
 
 .section .note.GNU-stack,"",@progbits

@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+extern void vector_33_handler(void);
+
 struct interrupt_descriptor
 {
     uint16_t address_low;
@@ -52,5 +54,6 @@ void IDT_init(void)
     for (unsigned int i = 0; i < 32; i++)
     {   set_idt_entry(i, isr_stub_table[i], 0); }
 
+    set_idt_entry(33, vector_33_handler, 0);
     load_idt(&idt[0]);
 }
