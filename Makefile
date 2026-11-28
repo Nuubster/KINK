@@ -1,6 +1,6 @@
 CC	= i686-elf-gcc
 CFLAGS	= -std=gnu99 -ffreestanding -O2 -Wall -Wextra -Ikernel/include
-OBJECTS = boot.o kernel.o keyboard.o keyboardIO.o cursor.o io.o terminal.o gdt.o gdt_flush.o interrupt.o idt.o idt_macro.o pic.o
+OBJECTS = boot.o kernel.o keyboard.o keyboardIO.o ps2.o cursor.o io.o terminal.o gdt.o gdt_flush.o interrupt.o idt.o idt_macro.o pic.o
 
 build: KINK
 
@@ -36,6 +36,9 @@ idt.o: kernel/src/idt.c
 
 pic.o: kernel/src/pic.c
 	$(CC) $(CFLAGS) -c kernel/src/pic.c -o pic.o
+
+ps2.o: kernel/src/ps2.c
+	$(CC) $(CFLAGS) -c kernel/src/ps2.c -o ps2.o
 
 keyboard.o: kernel/drivers/keyboard.S
 	$(CC) -c kernel/drivers/keyboard.S -o keyboard.o

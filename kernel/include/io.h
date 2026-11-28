@@ -13,6 +13,7 @@ typedef struct {
 
 extern key_event keyboardBuffer[];
 extern uint8_t keyboard_read();
+extern uint8_t keyboard_readStatus();
 
 void keyboard_IRQ_handler(void);
 
