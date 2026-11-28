@@ -45,6 +45,8 @@ void kernel_main(void)
     terminal_writeString("THIS IS NOT A KIRNIL\n");
     terminal_writeString("1234\n");
 
+    while (1) { asm volatile ("hlt"); }
+
 /* A divide-by-zero error call
     int a = 1;
     int b = 0;

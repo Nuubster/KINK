@@ -13,7 +13,7 @@ void interrupt_dispatch(struct interrupt_frame *frame)
             {   asm volatile("hlt");  }
     }
     else if (frame->vector == 33) {
-        terminal_writeString("Called");
+        terminal_writeString("Int. 33 Called");
         keyboard_IRQ_handler(); 
     }
     else {  terminal_writeString("Meow!");    }

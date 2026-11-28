@@ -27,5 +27,5 @@ void keyboard_IRQ_handler()
 
 void keyboard_processScancode()
 {
-    terminal_writeString("Gotcha");
+    terminal_writeString("IRQ Handler Called");
 }
